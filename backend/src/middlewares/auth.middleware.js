@@ -1,6 +1,7 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
-export function authenticate(req, res, next) {
+function authenticate(req, res, next) {
+
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -11,9 +12,17 @@ export function authenticate(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
     req.user = decoded;
+    
     next();
-  } catch {
+    console.log("SECRET:", process.env.JWT_SECRET)
+
+  } catch (error) {
+    console.log("Vc chegou até aqui")
     return res.status(401).json({ message: "Token inválido ou expirado" });
+
   }
 }
+
+module.exports = { authenticate };  
