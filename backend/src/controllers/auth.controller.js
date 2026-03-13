@@ -1,8 +1,8 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const prisma = require("../prisma/index.js")
 
 
-async function login(req, res) {
+async function loginUser(req, res) {
   try {
     const { user, password } = req.body;
     
@@ -39,5 +39,5 @@ async function login(req, res) {
 
 // Exportação CORRETA para CommonJS
 module.exports = {
-  login
+  loginUser
 };
