@@ -18,14 +18,15 @@ async function createRecords(req, res) {
         }
         
         const imageUrl = req.file ? req.file.filename : null;
-        
+        const userId = req.userId;
+
         const records = await prisma.record.create({
             data: {
                 title,
                 description,
                 type,
                 imageUrl,
-                userId: 1
+                userId: userId
             }
         });
         
