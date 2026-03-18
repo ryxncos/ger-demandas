@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 app.use(express.json());
@@ -16,6 +17,10 @@ app.use(cors({
 app.use("/users", require("./routes/user.routes"));
 app.use("/login", require("./routes/auth.routes"));
 app.use("/records", require("./routes/records.routes"));
+app.use('/uploads', express.static(path.join(__dirname, 'src', 'uploads')));
+// ... outras importações
+
+// Libera o acesso à pasta uploads
 app.use(express.urlencoded({ extended: true }));
 
 

@@ -1,0 +1,352 @@
+/* frontend/src/components/RecordsList.css */
+
+.records-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.records-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.records-header h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 2rem;
+}
+
+.records-header p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 1.1rem;
+    background: #f8f9fa;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+/* Loading */
+.records-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error */
+.records-error {
+    background-color: #fff3f3;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.records-error span {
+    font-size: 2rem;
+}
+
+.records-error p {
+    flex: 1;
+    margin: 0;
+    color: #dc3545;
+}
+
+.records-error button {
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.records-error button:hover {
+    background-color: #c82333;
+}
+
+/* Filters */
+.records-filters {
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-buttons button {
+    padding: 8px 16px;
+    border: 2px solid #e9ecef;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.filter-buttons button:hover {
+    background-color: #f8f9fa;
+}
+
+.filter-buttons button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* No records */
+.no-records {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+}
+
+.no-records-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.no-records h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.no-records p {
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.no-records button {
+    padding: 12px 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.no-records button:hover {
+    background-color: #0056b3;
+}
+
+/* Grid de cards */
+.records-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* Card */
+.record-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+}
+
+.record-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Header */
+.record-card-header {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.record-type {
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.record-date {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Card Body */
+.record-card-body {
+    padding: 20px;
+    flex: 1;
+}
+
+.record-card-body h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 1.25rem;
+}
+
+.record-card-body p {
+    margin: 0 0 15px 0;
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+.record-image {
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.record-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.record-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Card Footer */
+.record-card-footer {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.record-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.author-avatar {
+    font-size: 1.2rem;
+}
+
+.author-name {
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.record-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.record-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.record-actions button:hover {
+    background-color: #e9ecef;
+}
+
+.btn-view:hover {
+    color: #007bff;
+}
+
+.btn-edit:hover {
+    color: #28a745;
+}
+
+.btn-delete:hover {
+    color: #dc3545;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .records-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .records-filters {
+        flex-direction: column;
+    }
+
+    .search-box {
+        min-width: 100%;
+    }
+
+    .filter-buttons {
+        justify-content: center;
+    }
+
+    .records-grid {
+        grid-template-columns: 1fr;
+    }
+}
