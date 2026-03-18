@@ -5,8 +5,8 @@ const router = express.Router();
 
 
 const { authenticate } = require("../middlewares/auth.middleware");
-const { createRecords } = require("../controllers/records.controller");
-
+const { createRecords, listRecords } = require("../controllers/records.controller");
+// const { lisRecords} = require
 
 
 
@@ -26,7 +26,7 @@ const upload = multer({ storage: storage });
 // Na sua rota, use o multer primeiro
 // router.post("/", authenticate, createRecords);
 router.post("/", upload.single('imageUrl'), authenticate, createRecords);
-
+router.get("/", authenticate , listRecords)
 
 
 

@@ -16,7 +16,6 @@ function authenticate(req, res, next) {
     req.user = decoded;
     
     next();
-    console.log("SECRET:", process.env.JWT_SECRET)
 
   } catch (error) {
     console.log("Vc chegou até aqui")
