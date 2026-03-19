@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:3001', // URL do seu frontend React
+    origin: 'http://localhost:3005', // URL do seu frontend React
     credentials: true
 }));
 
@@ -17,6 +17,7 @@ app.use(cors({
 app.use("/users", require("./routes/user.routes"));
 app.use("/login", require("./routes/auth.routes"));
 app.use("/records", require("./routes/records.routes"));
+app.use("/records/user", require("./routes/records.routes"))
 app.use('/uploads', express.static(path.join(__dirname, 'src', 'uploads')));
 // ... outras importações
 

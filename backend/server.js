@@ -5,5 +5,5 @@ const PORT = process.env.PORT
 ;
 
 app.listen(PORT, () => {
-  console.log(`🚀 API rodando na porta ${PORT}`);
+  console.log(`API rodando na porta ${PORT}`);
 });

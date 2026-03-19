@@ -1,14 +1,16 @@
-const express = require("express");
+// backend/src/routes/records.routes.js
+const express = require('express');
+const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const router = express.Router();
 
+const { 
+    createRecords, 
+    listUserRecords,
+    listAllRecords 
+} = require('../controllers/records.controller');
 
 const { authenticate } = require("../middlewares/auth.middleware");
-const { createRecords, listRecords } = require("../controllers/records.controller");
-// const { lisRecords} = require
-
-
 
 // Configuração do Multer
 const storage = multer.diskStorage({
@@ -23,11 +25,14 @@ filename: function (req, file, cb) {
 
 const upload = multer({ storage: storage });
 
-// Na sua rota, use o multer primeiro
-// router.post("/", authenticate, createRecords);
+// Rotas protegidas (todas precisam de token)
 router.post("/", upload.single('imageUrl'), authenticate, createRecords);
-router.get("/", authenticate , listRecords)
+router.get("/", authenticate , listUserRecords)
 
 
+
+
+router.get('/records/user', authenticate, listUserRecords); // Demandas do usuário
+router.get('/records/all', authenticate, listAllRecords); // Todas (admin)
 
 module.exports = router;

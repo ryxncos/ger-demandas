@@ -1,11 +1,12 @@
 // frontend/src/components/Login.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import logoJbs from '../img/jbs-logo.webp'
 
 function Login() {
-    const [user, setUsername] = useState('');  // AGORA É USERNAME, NÃO EMAIL
+    const [user, setUsername] = useState('');  
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -118,6 +119,10 @@ function Login() {
                 >
                     {loading ? 'Entrando...' : 'Entrar'}
                 </button>
+                <div className="login-link">
+                        Criar conta <Link to="/register">Cadastro</Link>
+                </div>
+                
             </form>
         </div>
     );

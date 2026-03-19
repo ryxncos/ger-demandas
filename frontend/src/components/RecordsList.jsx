@@ -2,33 +2,37 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
-import './RecordsList.css'; // Vamos criar o CSS depois
+import './RecordsList.css';
 
 function RecordsList() {
     const { user } = useAuth();
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [filter, setFilter] = useState('all'); // 'all', 'bug', 'feature', 'task'
+    const [filter, setFilter] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        fetchRecords();
+        fetchUserRecords(); // Agora busca apenas as do usuário
     }, []);
 
-    const fetchRecords = async () => {
+    const fetchUserRecords = async () => {
         try {
             setLoading(true);
-            const response = await api.get('/records'); // Ajuste a rota conforme seu backend
+            // Usa a rota que filtra por usuário
+            const response = await api.get('/records/user');
+            console.log('Demandas do usuário:', response.data); // Debug
             setRecords(response.data);
             setError('');
         } catch (error) {
+            console.error('Erro ao carregar demandas:', error);
             setError('Erro ao carregar demandas: ' + (error.response?.data?.error || error.message));
         } finally {
             setLoading(false);
         }
     };
 
+    // Mostra informações de debug no card
     const getTypeColor = (type) => {
         const colors = {
             bug: '#dc3545',
@@ -81,7 +85,7 @@ function RecordsList() {
         return (
             <div className="records-loading">
                 <div className="spinner"></div>
-                <p>Carregando demandas...</p>
+                <p>Carregando suas demandas...</p>
             </div>
         );
     }
@@ -90,14 +94,17 @@ function RecordsList() {
         <div className="records-container">
             <div className="records-header">
                 <h1>Minhas Demandas</h1>
-                <p>Total: {filteredRecords.length} {filteredRecords.length === 1 ? 'demanda' : 'demandas'}</p>
+                <div className="user-info-header">
+                    <p>Usuário: <strong>{user}</strong></p>
+                    <p>Total: {filteredRecords.length} {filteredRecords.length === 1 ? 'demanda' : 'demandas'}</p>
+                </div>
             </div>
 
             {error && (
                 <div className="records-error">
                     <span>⚠️</span>
                     <p>{error}</p>
-                    <button onClick={fetchRecords}>Tentar novamente</button>
+                    <button onClick={fetchUserRecords}>Tentar novamente</button>
                 </div>
             )}
 
@@ -105,7 +112,7 @@ function RecordsList() {
                 <div className="search-box">
                     <input
                         type="text"
-                        placeholder="🔍 Buscar demandas..."
+                        placeholder="🔍 Buscar em suas demandas..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -151,10 +158,10 @@ function RecordsList() {
                             ? 'Tente buscar com outros termos' 
                             : filter !== 'all' 
                             ? `Você não tem demandas do tipo ${getTypeLabel(filter)}` 
-                            : 'Comece criando sua primeira demanda!'}
+                            : 'Você ainda não criou nenhuma demanda!'}
                     </p>
                     <button onClick={() => window.location.href = '/create-record'}>
-                        Criar Nova Demanda
+                        Criar Primeira Demanda
                     </button>
                 </div>
             ) : (
@@ -169,8 +176,6 @@ function RecordsList() {
                                     {getTypeIcon(record.type)} {getTypeLabel(record.type)}
                                 </span>
                                 <span className="record-date">{formatDate(record.createdAt)}</span>
-                                
-                                
                             </div>
 
                             <div className="record-card-body">
@@ -191,7 +196,10 @@ function RecordsList() {
                             <div className="record-card-footer">
                                 <div className="record-author">
                                     <span className="author-avatar">👤</span>
-                                    <span className="author-name">{user.toUpperCase()}</span>
+                                    <span className="author-name">
+                                        {/* Mostra de quem é a demanda (sempre será o usuário logado) */}
+                                        {record.user?.user || user?.user || 'Você'}
+                                    </span>
                                 </div>
                                 
                                 <div className="record-actions">
@@ -217,6 +225,11 @@ function RecordsList() {
                                         🗑️
                                     </button>
                                 </div>
+                            </div>
+
+                            {/* Debug: mostra o userId (remova depois) */}
+                            <div className="record-debug" style={{ fontSize: '10px', color: '#999', padding: '5px', borderTop: '1px dashed #ccc' }}>
+                                <small>ID: {record.id} | Usuário ID: {record.userId}</small>
                             </div>
                         </div>
                     ))}

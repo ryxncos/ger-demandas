@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 function CreateRecord() {
     const { user } = useAuth(); // Pega o usuário logado
-    // console.log(user)
+    console.log(user)
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -45,7 +45,7 @@ function CreateRecord() {
                 }
             });
             setMessage('Demanda criada com sucesso!');
-            console.log('Demanda criada por:', user?.username); // Debug
+            console.log('Demanda criada por:', user); // Debug
             setFormData({ title: '', description: '', type: 'bug' });
             setImage(null);
         } catch (error) {
@@ -105,7 +105,7 @@ function CreateRecord() {
                 </div>
                 
                 <div style={{ marginBottom: '20px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Imagem (opcional):</label>
+                    <label style={{ display: 'block', marginBottom: '5px' }}>Imagem</label>
                     <input
                         type="file"
                         onChange={handleImageChange}

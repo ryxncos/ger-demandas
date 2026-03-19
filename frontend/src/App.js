@@ -1,10 +1,12 @@
-// frontend/src/App.js
+// frontend/src/App.js (adicione a rota de registro)
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
+import Register from './components/Register'; // Importe o componente
 import Dashboard from './components/Dashboard';
 import CreateRecord from './components/CreateRecord';
+import RecordsList from './components/RecordsList';
 
 function PrivateRoute({ children }) {
     const { user, loading } = useAuth();
@@ -20,6 +22,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} /> {/* Nova rota */}
                     <Route path="/dashboard" element={
                         <PrivateRoute>
                             <Dashboard />
@@ -28,6 +31,11 @@ function App() {
                     <Route path="/create-record" element={
                         <PrivateRoute>
                             <CreateRecord />
+                        </PrivateRoute>
+                    } />
+                    <Route path="/records" element={
+                        <PrivateRoute>
+                            <RecordsList />
                         </PrivateRoute>
                     } />
                     <Route path="/" element={<Navigate to="/dashboard" />} />

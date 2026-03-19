@@ -34,6 +34,8 @@ export const AuthProvider = ({ children }) => {
         loadUserFromStorage();
     }, []);
 
+    
+
     // FUNÇÃO DE LOGIN ADAPTADA PARA USUÁRIO (NÃO EMAIL)
     const login = async (user, password) => {
         try {
