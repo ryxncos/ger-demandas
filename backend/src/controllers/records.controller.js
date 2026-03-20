@@ -15,9 +15,16 @@ async function createRecords(req, res) {
             });
         }
         
-        const imageUrl = req.file ? req.file.filename : null;
+        // 🔥 Verificar se o arquivo foi enviado
+        let imageUrl = null;
+        if (req.file) {
+            imageUrl = req.file.filename;
+            console.log('📸 Arquivo salvo:', req.file.filename);
+            console.log('📁 Caminho completo:', req.file.path);
+        } else {
+            console.log('📸 Nenhum arquivo enviado');
+        }
 
-        // Verifica se o usuário está autenticado
         if (!req.user || !req.user.id) {
             return res.status(401).json({ error: "Usuário não autenticado" });
         }
@@ -31,33 +38,21 @@ async function createRecords(req, res) {
                 title,
                 description,
                 type,
-                imageUrl,
+                imageUrl,  // Salva apenas o nome do arquivo
                 user: {
                     connect: { id: userId }
-                }
-            },
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        user: true
-                    }
                 }
             }
         });
         
         return res.status(201).json({
-            success: true,
-            message: "Demanda criada com sucesso",
-            data: records
+            ...records,
+            imageUrl: records.imageUrl ? `/uploads/${records.imageUrl}` : null
         });
         
     } catch (error) {
         console.error("Erro detalhado:", error);
-        return res.status(500).json({ 
-            success: false,
-            error: error.message 
-        });
+        return res.status(500).json({ error: error.message });
     }
 }
 

@@ -139,7 +139,7 @@ function RecordsList() {
     const handleDelete = async (id) => {
         if (window.confirm('⚠️ Tem certeza que deseja deletar esta demanda?\n\nEsta ação não pode ser desfeita!')) {
             try {
-                await api.delete(`/records/${id}`);
+                await api.delete(`/records/records/${id}`);
                 alert('✅ Demanda deletada com sucesso!');
                 fetchUserRecords();
             } catch (error) {
@@ -193,7 +193,7 @@ function RecordsList() {
             <div className="records-header">
                 <h1>Minhas Demandas</h1>
                 <div className="user-info-header">
-                    <p>Usuário: <strong>{user?.user || user?.name || 'Usuário'}</strong></p>
+                    <p>Usuário: <strong>{user || user?.name || 'Usuário'}</strong></p>
                     <p>Total: {filteredRecords.length} {filteredRecords.length === 1 ? 'demanda' : 'demandas'}</p>
                 </div>
             </div>
@@ -263,11 +263,18 @@ function RecordsList() {
                                 <h3>{record.title}</h3>
                                 <p>{record.description}</p>
                                 
+                                
+
                                 {record.imageUrl && (
                                     <div className="record-image">
                                         <img 
-                                            src={`http://localhost:3000/uploads/${record.imageUrl}`} 
+                                            src={`http://localhost:3000/uploads/${record.imageUrl}`}
                                             alt={record.title}
+                                            onError={(e) => {
+                                                console.error('Erro ao carregar imagem:', e.target.src);
+                                                e.target.style.display = 'none'; // Esconde a imagem quebrada
+                                                e.target.parentElement.innerHTML = '<div class="image-error">⚠️ Imagem não encontrada</div>';
+                                            }}
                                             onClick={() => window.open(`http://localhost:3000/uploads/${record.imageUrl}`, '_blank')}
                                         />
                                     </div>
