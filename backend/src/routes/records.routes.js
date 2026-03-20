@@ -5,9 +5,12 @@ const multer = require('multer');
 const path = require('path');
 
 const { 
-    createRecords, 
+    createRecords,
     listUserRecords,
-    listAllRecords 
+    listAllRecords,
+    getRecordById,
+    updateRecord,
+    deleteRecord
 } = require('../controllers/records.controller');
 
 const { authenticate } = require("../middlewares/auth.middleware");
@@ -34,5 +37,8 @@ router.get("/", authenticate , listUserRecords)
 
 router.get('/records/user', authenticate, listUserRecords); // Demandas do usuário
 router.get('/records/all', authenticate, listAllRecords); // Todas (admin)
-
+router.get('/records/all', authenticate, listAllRecords);
+router.get('/records/:id', authenticate, getRecordById); // Busca específica
+router.put('/records/:id', authenticate, upload.single('imageUrl'), updateRecord);
+router.delete('/records/:id', authenticate, deleteRecord);
 module.exports = router;

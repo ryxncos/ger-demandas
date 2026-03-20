@@ -98,9 +98,30 @@ function CreateRecord() {
                         onChange={handleChange}
                         style={{ width: '100%', padding: '8px' }}
                     >
-                        <option value="bug">Bug</option>
-                        <option value="feature">Feature</option>
-                        <option value="task">Task</option>
+                        <option value="camera-opt">Câmera</option>
+                        <option value="radio-opt">Rádio</option>
+                        <option value="nobreak-opt">Nobreak T.I</option>
+                        <option value="gerador-opt">Gerador</option>
+                        <option value="wifi-auditoria-opt">Wifi Auditoria</option>
+                        <option value="wifi-mobile-opt">Wifi Mobile</option>
+                        <option value="5s-sala-opt">5s Sala</option>
+                        <option value="5s-deposito-opt">5s Depósito</option>
+                        <option value="faturamento-hp-opt">Faturamento HP</option>
+                        <option value="pcs-imp-opt">Peças impressoras</option>
+                        <option value="org-rack-opt">Organização de Racks</option>
+                        <option value="toners-hp-opt">Toners HP</option>
+                        <option value="pcs-ti-opt">Peças T.I</option>
+                        <option value="central-tele-opt">Central Telefônica</option>
+                        <option value="sif-opt">SIF</option>
+                        <option value="dmnd-corp-opt">Demandas corporativas</option>
+                        <option value="cut-sl-eti-opt">Cortadores SL. Etiquetas</option>
+                        <option value="bckp-opt">Backup</option>
+                        <option value="pilar-adm-opt">Pilar ADM</option>
+                        <option value="mikrotik-opt">Mikrotik</option>
+                        <option value="erp-1t-opt">Acesso ERP 1T</option>
+                        <option value="erp-2t-opt">Acesso ERP 2T</option>
+                        <option value="erp-area-apoio-opt">ERP Area Apoio</option>
+                        {/* <option value="task">Task</option> */}
                     </select>
                 </div>
                 

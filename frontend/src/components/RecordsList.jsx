@@ -13,15 +13,14 @@ function RecordsList() {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        fetchUserRecords(); // Agora busca apenas as do usuário
+        fetchUserRecords();
     }, []);
 
     const fetchUserRecords = async () => {
         try {
             setLoading(true);
-            // Usa a rota que filtra por usuário
             const response = await api.get('/records/user');
-            console.log('Demandas do usuário:', response.data); // Debug
+            console.log('Demandas do usuário:', response.data);
             setRecords(response.data);
             setError('');
         } catch (error) {
@@ -32,32 +31,95 @@ function RecordsList() {
         }
     };
 
-    // Mostra informações de debug no card
+    // 🔥 ATUALIZADO: Mapeamento de cores para as novas categorias
     const getTypeColor = (type) => {
         const colors = {
-            bug: '#dc3545',
-            feature: '#28a745',
-            task: '#ffc107',
+            'camera-opt': '#17a2b8',      // Azul petróleo
+            'radio-opt': '#fd7e14',       // Laranja
+            'nobreak-opt': '#20c997',     // Verde água
+            'gerador-opt': '#ffc107',     // Amarelo
+            'wifi-auditoria-opt': '#6f42c1', // Roxo
+            'wifi-mobile-opt': '#e83e8c',    // Rosa
+            '5s-sala-opt': '#28a745',     // Verde
+            '5s-deposito-opt': '#28a745', // Verde
+            'faturamento-hp-opt': '#007bff', // Azul
+            'pcs-imp-opt': '#dc3545',     // Vermelho
+            'org-rack-opt': '#6c757d',    // Cinza
+            'toners-hp-opt': '#17a2b8',   // Azul petróleo
+            'pcs-ti-opt': '#dc3545',      // Vermelho
+            'central-tele-opt': '#fd7e14',  // Laranja
+            'sif-opt': '#20c997',         // Verde água
+            'dmnd-corp-opt': '#6f42c1',   // Roxo
+            'cut-sl-eti-opt': '#28a745',  // Verde
+            'bckp-opt': '#007bff',        // Azul
+            'pilar-adm-opt': '#6c757d',   // Cinza
+            'mikrotik-opt': '#17a2b8',    // Azul petróleo
+            'erp-1t-opt': '#fd7e14',      // Laranja
+            'erp-2t-opt': '#fd7e14',      // Laranja
+            'erp-area-apoio-opt': '#fd7e14', // Laranja
             default: '#6c757d'
         };
         return colors[type] || colors.default;
     };
 
+    // 🔥 ATUALIZADO: Ícones para as novas categorias
     const getTypeIcon = (type) => {
         const icons = {
-            bug: '🐛',
-            feature: '✨',
-            task: '📋',
+            'camera-opt': '📷',
+            'radio-opt': '📻',
+            'nobreak-opt': '⚡',
+            'gerador-opt': '🔄',
+            'wifi-auditoria-opt': '📶',
+            'wifi-mobile-opt': '📱',
+            '5s-sala-opt': '🧹',
+            '5s-deposito-opt': '📦',
+            'faturamento-hp-opt': '💰',
+            'pcs-imp-opt': '🖨️',
+            'org-rack-opt': '🗄️',
+            'toners-hp-opt': '🖨️',
+            'pcs-ti-opt': '💻',
+            'central-tele-opt': '📞',
+            'sif-opt': '🔒',
+            'dmnd-corp-opt': '🏢',
+            'cut-sl-eti-opt': '✂️',
+            'bckp-opt': '💾',
+            'pilar-adm-opt': '📊',
+            'mikrotik-opt': '🌐',
+            'erp-1t-opt': '📈',
+            'erp-2t-opt': '📉',
+            'erp-area-apoio-opt': '🆘',
             default: '📌'
         };
         return icons[type] || icons.default;
     };
 
+    // 🔥 ATUALIZADO: Labels para as novas categorias
     const getTypeLabel = (type) => {
         const labels = {
-            bug: 'Bug',
-            feature: 'Feature',
-            task: 'Task'
+            'camera-opt': 'Câmera',
+            'radio-opt': 'Rádio',
+            'nobreak-opt': 'Nobreak T.I',
+            'gerador-opt': 'Gerador',
+            'wifi-auditoria-opt': 'WiFi Auditoria',
+            'wifi-mobile-opt': 'WiFi Mobile',
+            '5s-sala-opt': '5S Sala',
+            '5s-deposito-opt': '5S Depósito',
+            'faturamento-hp-opt': 'Faturamento HP',
+            'pcs-imp-opt': 'Peças Impressoras',
+            'org-rack-opt': 'Organização de Racks',
+            'toners-hp-opt': 'Toners HP',
+            'pcs-ti-opt': 'Peças T.I',
+            'central-tele-opt': 'Central Telefônica',
+            'sif-opt': 'SIF',
+            'dmnd-corp-opt': 'Demandas Corporativas',
+            'cut-sl-eti-opt': 'Cortadores SL Etiquetas',
+            'bckp-opt': 'Backup',
+            'pilar-adm-opt': 'Pilar ADM',
+            'mikrotik-opt': 'Mikrotik',
+            'erp-1t-opt': 'Acesso ERP 1T',
+            'erp-2t-opt': 'Acesso ERP 2T',
+            'erp-area-apoio-opt': 'ERP Area Apoio',
+            default: 'Outros'
         };
         return labels[type] || type;
     };
@@ -73,6 +135,20 @@ function RecordsList() {
         });
     };
 
+    // 🔥 ATUALIZADO: Função para deletar (corrigida)
+    const handleDelete = async (id) => {
+        if (window.confirm('⚠️ Tem certeza que deseja deletar esta demanda?\n\nEsta ação não pode ser desfeita!')) {
+            try {
+                await api.delete(`/records/${id}`);
+                alert('✅ Demanda deletada com sucesso!');
+                fetchUserRecords();
+            } catch (error) {
+                console.error('Erro ao deletar:', error);
+                alert('❌ Erro ao deletar demanda: ' + (error.response?.data?.error || error.message));
+            }
+        }
+    };
+
     // Filtra as demandas baseado no tipo e termo de busca
     const filteredRecords = records.filter(record => {
         const matchesType = filter === 'all' || record.type === filter;
@@ -80,6 +156,28 @@ function RecordsList() {
                              record.description.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesType && matchesSearch;
     });
+
+    // 🔥 ATUALIZADO: Lista de categorias para os botões de filtro
+    const categories = [
+        { value: 'all', label: 'Todos', icon: '📋' },
+        { value: 'camera-opt', label: 'Câmera', icon: '📷' },
+        { value: 'radio-opt', label: 'Rádio', icon: '📻' },
+        { value: 'nobreak-opt', label: 'Nobreak', icon: '⚡' },
+        { value: 'gerador-opt', label: 'Gerador', icon: '🔄' },
+        { value: 'wifi-auditoria-opt', label: 'WiFi Aud.', icon: '📶' },
+        { value: 'wifi-mobile-opt', label: 'WiFi Mob.', icon: '📱' },
+        { value: '5s-sala-opt', label: '5S Sala', icon: '🧹' },
+        { value: '5s-deposito-opt', label: '5S Depósito', icon: '📦' },
+        { value: 'pcs-imp-opt', label: 'Peças Imp.', icon: '🖨️' },
+        { value: 'toners-hp-opt', label: 'Toners HP', icon: '🖨️' },
+        { value: 'pcs-ti-opt', label: 'Peças T.I', icon: '💻' },
+        { value: 'central-tele-opt', label: 'Central Tel.', icon: '📞' },
+        { value: 'bckp-opt', label: 'Backup', icon: '💾' },
+        { value: 'mikrotik-opt', label: 'Mikrotik', icon: '🌐' },
+        { value: 'erp-1t-opt', label: 'ERP 1T', icon: '📈' },
+        { value: 'erp-2t-opt', label: 'ERP 2T', icon:'📈'},
+        { value: 'erp-area-apoio-opt', label: 'ERP Área de Apoio', icon:'📈'}
+    ];
 
     if (loading) {
         return (
@@ -95,7 +193,7 @@ function RecordsList() {
             <div className="records-header">
                 <h1>Minhas Demandas</h1>
                 <div className="user-info-header">
-                    <p>Usuário: <strong>{user}</strong></p>
+                    <p>Usuário: <strong>{user?.user || user?.name || 'Usuário'}</strong></p>
                     <p>Total: {filteredRecords.length} {filteredRecords.length === 1 ? 'demanda' : 'demandas'}</p>
                 </div>
             </div>
@@ -119,33 +217,16 @@ function RecordsList() {
                 </div>
 
                 <div className="filter-buttons">
-                    <button 
-                        className={filter === 'all' ? 'active' : ''} 
-                        onClick={() => setFilter('all')}
-                    >
-                        Todos
-                    </button>
-                    <button 
-                        className={filter === 'bug' ? 'active' : ''} 
-                        onClick={() => setFilter('bug')}
-                        style={{ borderColor: getTypeColor('bug') }}
-                    >
-                        🐛 Bugs
-                    </button>
-                    <button 
-                        className={filter === 'feature' ? 'active' : ''} 
-                        onClick={() => setFilter('feature')}
-                        style={{ borderColor: getTypeColor('feature') }}
-                    >
-                        ✨ Features
-                    </button>
-                    <button 
-                        className={filter === 'task' ? 'active' : ''} 
-                        onClick={() => setFilter('task')}
-                        style={{ borderColor: getTypeColor('task') }}
-                    >
-                        📋 Tasks
-                    </button>
+                    {categories.map(cat => (
+                        <button 
+                            key={cat.value}
+                            className={filter === cat.value ? 'active' : ''} 
+                            onClick={() => setFilter(cat.value)}
+                            style={{ borderColor: cat.value !== 'all' ? getTypeColor(cat.value) : undefined }}
+                        >
+                            {cat.icon} {cat.label}
+                        </button>
+                    ))}
                 </div>
             </div>
 
@@ -197,7 +278,6 @@ function RecordsList() {
                                 <div className="record-author">
                                     <span className="author-avatar">👤</span>
                                     <span className="author-name">
-                                        {/* Mostra de quem é a demanda (sempre será o usuário logado) */}
                                         {record.user?.user || user?.user || 'Você'}
                                     </span>
                                 </div>
@@ -219,7 +299,7 @@ function RecordsList() {
                                     </button>
                                     <button 
                                         className="btn-delete"
-                                        onClick={() => {/* Implementar exclusão com confirmação */}}
+                                        onClick={() => handleDelete(record.id)}
                                         title="Excluir"
                                     >
                                         🗑️
@@ -227,9 +307,8 @@ function RecordsList() {
                                 </div>
                             </div>
 
-                            {/* Debug: mostra o userId (remova depois) */}
                             <div className="record-debug" style={{ fontSize: '10px', color: '#999', padding: '5px', borderTop: '1px dashed #ccc' }}>
-                                <small>ID: {record.id} | Usuário ID: {record.userId}</small>
+                                <small>ID: {record.id} | Tipo: {record.type}</small>
                             </div>
                         </div>
                     ))}
