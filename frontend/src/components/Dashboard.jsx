@@ -23,7 +23,7 @@ function Dashboard() {
                 
                 <div className="nav-user">
                     <span className="user-greeting">
-                        Olá, <strong >{user.toUpperCase()}</strong>
+                        Olá, <strong >{user?.user || 'Usuário'}</strong>
                     </span>
                     <button 
                         className="btn-create"

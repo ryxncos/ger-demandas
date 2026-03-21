@@ -44,8 +44,9 @@ function CreateRecord() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            
             setMessage('Demanda criada com sucesso!');
-            console.log('Demanda criada por:', user); // Debug
+            // console.log('Demanda criada por:', user); // Debug
             setFormData({ title: '', description: '', type: 'bug' });
             setImage(null);
         } catch (error) {

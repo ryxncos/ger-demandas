@@ -13,10 +13,8 @@ app.use(cors({
     credentials: true
 }));
 
-// 🔥 IMPORTANTE: Configurar a pasta de uploads como estática ANTES das rotas
-// Caminho absoluto para a pasta uploads
 const uploadsPath = path.join(__dirname, 'uploads');
-console.log('📁 Pasta de uploads:', uploadsPath); // Debug
+// console.log('📁 Pasta de uploads:', uploadsPath); // Debug
 
 // Servir arquivos estáticos da pasta uploads
 app.use('/uploads', express.static(uploadsPath));

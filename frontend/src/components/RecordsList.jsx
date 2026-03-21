@@ -193,7 +193,7 @@ function RecordsList() {
             <div className="records-header">
                 <h1>Minhas Demandas</h1>
                 <div className="user-info-header">
-                    <p>Usuário: <strong>{user || user?.name || 'Usuário'}</strong></p>
+                    <p>Usuário: <strong>{user?.user || 'Usuário'}</strong></p>
                     <p>Total: {filteredRecords.length} {filteredRecords.length === 1 ? 'demanda' : 'demandas'}</p>
                 </div>
             </div>
@@ -266,7 +266,10 @@ function RecordsList() {
                                 
 
                                 {record.imageUrl && (
-                                    <div className="record-image">
+                                    <div className="record-image" style={{
+                                        width: '200px',
+                                        height: '200px'
+                                    }}>
                                         <img 
                                             src={`http://localhost:3000/uploads/${record.imageUrl}`}
                                             alt={record.title}
@@ -290,20 +293,8 @@ function RecordsList() {
                                 </div>
                                 
                                 <div className="record-actions">
-                                    <button 
-                                        className="btn-view"
-                                        onClick={() => {/* Implementar visualização detalhada */}}
-                                        title="Ver detalhes"
-                                    >
-                                        👁️
-                                    </button>
-                                    <button 
-                                        className="btn-edit"
-                                        onClick={() => {/* Implementar edição */}}
-                                        title="Editar"
-                                    >
-                                        ✏️
-                                    </button>
+                                    
+                                    
                                     <button 
                                         className="btn-delete"
                                         onClick={() => handleDelete(record.id)}

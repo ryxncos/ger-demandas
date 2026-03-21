@@ -1,27 +1,32 @@
-const jwt = require("jsonwebtoken");
+// backend/src/middlewares/auth.js
+const jwt = require('jsonwebtoken');
 
-function authenticate(req, res, next) {
+async function authenticate(req, res, next) {
+    try {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
 
-  const authHeader = req.headers.authorization;
+        if (!token) {
+            return res.status(401).json({ error: "Token não fornecido" });
+        }
 
-  if (!authHeader) {
-    return res.status(401).json({ message: "Token não fornecido" });
-  }
-
-  const [, token] = authHeader.split(" ");
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    req.user = decoded;
-    
-    next();
-
-  } catch (error) {
-    console.log("Vc chegou até aqui")
-    return res.status(401).json({ message: "Token inválido ou expirado" });
-
-  }
+        // 🔥 Decodifica o token e extrai TODOS os dados (incluindo role)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'seu_secret_jwt_aqui');
+        
+        // 🔥 IMPORTANTE: Adiciona o usuário COMPLETO (com role) na requisição
+        req.user = {
+            id: decoded.id,
+            user: decoded.user,
+            role: decoded.role  // 👈 GARANTA QUE O ROLE ESTÁ AQUI!
+        };
+        
+        console.log('Usuário autenticado:', req.user); // Debug: veja se o role aparece
+        
+        next();
+    } catch (error) {
+        console.error('Erro na autenticação:', error);
+        return res.status(403).json({ error: "Token inválido" });
+    }
 }
 
-module.exports = { authenticate };  
+module.exports = { authenticate };
