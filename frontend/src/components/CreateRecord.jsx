@@ -11,7 +11,7 @@ function CreateRecord() {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        type: 'bug'
+        type: 'camera-opt'
     });
 
     const [image, setImage] = useState(null);
@@ -55,7 +55,7 @@ function CreateRecord() {
             setSuccess(true);
 
             // 🔥 RESET
-            setFormData({ title: '', description: '', type: 'bug' });
+            setFormData({ title: '', description: '', type: 'Câmera' });
             setImage(null);
 
             // 🔥 REDIRECT APÓS 1.5s (tempo pra mostrar feedback)
