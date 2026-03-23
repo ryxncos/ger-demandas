@@ -1,19 +1,23 @@
-// frontend/src/components/CreateRecord.jsx
 import React, { useState } from 'react';
 import api from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import './CreateRecord.css';
 
 function CreateRecord() {
-    const { user } = useAuth(); // Pega o usuário logado
-    console.log(user)
+    const { user } = useAuth();
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         type: 'bug'
     });
+
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
+    const [success, setSuccess] = useState(false);
 
     const handleChange = (e) => {
         setFormData({
@@ -29,27 +33,38 @@ function CreateRecord() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        
+        setMessage('');
+
         const data = new FormData();
         data.append('title', formData.title);
         data.append('description', formData.description);
         data.append('type', formData.type);
+
         if (image) {
             data.append('imageUrl', image);
         }
 
         try {
-            const response = await api.post('/records', data, {
+            await api.post('/records', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            
+
             setMessage('Demanda criada com sucesso!');
-            // console.log('Demanda criada por:', user); // Debug
+            setSuccess(true);
+
+            // 🔥 RESET
             setFormData({ title: '', description: '', type: 'bug' });
             setImage(null);
+
+            // 🔥 REDIRECT APÓS 1.5s (tempo pra mostrar feedback)
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 1500);
+
         } catch (error) {
+            setSuccess(false);
             setMessage('Erro ao criar demanda: ' + error.response?.data?.error);
         } finally {
             setLoading(false);
@@ -57,102 +72,98 @@ function CreateRecord() {
     };
 
     return (
-        <div style={{ maxWidth: '600px', margin: '50px auto', padding: '20px' }}>
-            <h2>Nova Demanda</h2>
-            {message && (
-                <p style={{ 
-                    color: message.includes('sucesso') ? 'green' : 'red',
-                    marginBottom: '15px' 
-                }}>
-                    {message}
-                </p>
-            )}
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Título:</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        required
-                        style={{ width: '100%', padding: '8px' }}
-                    />
+        <div className="create-container">
+            <div className="create-box">
+
+                <div className="create-header">
+                    <h2>Nova Demanda</h2>
                 </div>
-                
-                <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Descrição:</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        required
-                        style={{ width: '100%', padding: '8px', minHeight: '100px' }}
-                    />
-                </div>
-                
-                <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Tipo:</label>
-                    <select 
-                        name="type" 
-                        value={formData.type} 
-                        onChange={handleChange}
-                        style={{ width: '100%', padding: '8px' }}
+
+                {message && (
+                    <div className={success ? 'alert-success' : 'alert-error'}>
+                        {message}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="create-form">
+
+                    <div className="form-group">
+                        <label>Título</label>
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Descrição</label>
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Tipo</label>
+                        <select
+                            name="type"
+                            value={formData.type}
+                            onChange={handleChange}
+                            disabled={loading}
+                        >
+                            <option value="camera-opt">Câmera</option>
+                            <option value="radio-opt">Rádio</option>
+                            <option value="nobreak-opt">Nobreak T.I</option>
+                            <option value="gerador-opt">Gerador</option>
+                            <option value="wifi-auditoria-opt">Wifi Auditoria</option>
+                            <option value="wifi-mobile-opt">Wifi Mobile</option>
+                            <option value="5s-sala-opt">5s Sala</option>
+                            <option value="5s-deposito-opt">5s Depósito</option>
+                            <option value="faturamento-hp-opt">Faturamento HP</option>
+                            <option value="pcs-imp-opt">Peças impressoras</option>
+                            <option value="org-rack-opt">Organização de Racks</option>
+                            <option value="toners-hp-opt">Toners HP</option>
+                            <option value="pcs-ti-opt">Peças T.I</option>
+                            <option value="central-tele-opt">Central Telefônica</option>
+                            <option value="sif-opt">SIF</option>
+                            <option value="dmnd-corp-opt">Demandas corporativas</option>
+                            <option value="cut-sl-eti-opt">Cortadores SL. Etiquetas</option>
+                            <option value="bckp-opt">Backup</option>
+                            <option value="pilar-adm-opt">Pilar ADM</option>
+                            <option value="mikrotik-opt">Mikrotik</option>
+                            <option value="erp-1t-opt">Acesso ERP 1T</option>
+                            <option value="erp-2t-opt">Acesso ERP 2T</option>
+                            <option value="erp-area-apoio-opt">ERP Area Apoio</option>
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Imagem</label>
+                        <input
+                            type="file"
+                            onChange={handleImageChange}
+                            accept="image/*"
+                            disabled={loading}
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="btn-create"
                     >
-                        <option value="camera-opt">Câmera</option>
-                        <option value="radio-opt">Rádio</option>
-                        <option value="nobreak-opt">Nobreak T.I</option>
-                        <option value="gerador-opt">Gerador</option>
-                        <option value="wifi-auditoria-opt">Wifi Auditoria</option>
-                        <option value="wifi-mobile-opt">Wifi Mobile</option>
-                        <option value="5s-sala-opt">5s Sala</option>
-                        <option value="5s-deposito-opt">5s Depósito</option>
-                        <option value="faturamento-hp-opt">Faturamento HP</option>
-                        <option value="pcs-imp-opt">Peças impressoras</option>
-                        <option value="org-rack-opt">Organização de Racks</option>
-                        <option value="toners-hp-opt">Toners HP</option>
-                        <option value="pcs-ti-opt">Peças T.I</option>
-                        <option value="central-tele-opt">Central Telefônica</option>
-                        <option value="sif-opt">SIF</option>
-                        <option value="dmnd-corp-opt">Demandas corporativas</option>
-                        <option value="cut-sl-eti-opt">Cortadores SL. Etiquetas</option>
-                        <option value="bckp-opt">Backup</option>
-                        <option value="pilar-adm-opt">Pilar ADM</option>
-                        <option value="mikrotik-opt">Mikrotik</option>
-                        <option value="erp-1t-opt">Acesso ERP 1T</option>
-                        <option value="erp-2t-opt">Acesso ERP 2T</option>
-                        <option value="erp-area-apoio-opt">ERP Area Apoio</option>
-                        {/* <option value="task">Task</option> */}
-                    </select>
-                </div>
-                
-                <div style={{ marginBottom: '20px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px' }}>Imagem</label>
-                    <input
-                        type="file"
-                        onChange={handleImageChange}
-                        accept="image/*"
-                        style={{ width: '100%', padding: '8px' }}
-                    />
-                </div>
-                
-                <button 
-                    type="submit" 
-                    disabled={loading}
-                    style={{ 
-                        width: '100%', 
-                        padding: '10px', 
-                        backgroundColor: '#28a745', 
-                        color: 'white', 
-                        border: 'none',
-                        borderRadius: '3px',
-                        cursor: loading ? 'not-allowed' : 'pointer',
-                        opacity: loading ? 0.7 : 1
-                    }}
-                >
-                    {loading ? 'Criando...' : 'Criar Demanda'}
-                </button>
-            </form>
+                        {loading ? 'Criando...' : 'Criar Demanda'}
+                    </button>
+
+                </form>
+            </div>
         </div>
     );
 }
