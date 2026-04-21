@@ -10,21 +10,21 @@ async function authenticate(req, res, next) {
             return res.status(401).json({ error: "Token não fornecido" });
         }
 
-        // 🔥 Decodifica o token e extrai TODOS os dados (incluindo role)
+        //  Decodifica o token e extrai os dados (incluindo role)
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'seu_secret_jwt_aqui');
         
-        // 🔥 IMPORTANTE: Adiciona o usuário COMPLETO (com role) na requisição
+        // Adiciona o usuário COMPLETO (com role) na requisição
         req.user = {
             id: decoded.id,
             user: decoded.user,
-            role: decoded.role  // 👈 GARANTA QUE O ROLE ESTÁ AQUI!
+            role: decoded.role 
         };
         
-        console.log('Usuário autenticado:', req.user); // Debug: veja se o role aparece
+        // console.log('Usuário autenticado:', req.user);
         
         next();
     } catch (error) {
-        console.error('Erro na autenticação:', error);
+        // console.error('Erro na autenticação:', error);
         return res.status(403).json({ error: "Token inválido" });
     }
 }

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
+
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     
@@ -35,6 +36,8 @@ function AdminDashboard() {
         }
         fetchAllData();
     }, [user]);
+
+    const userRole = user.role;
 
     const fetchAllData = async () => {
         try {
@@ -82,6 +85,7 @@ function AdminDashboard() {
 
     const getTypeColor = (type) => {
         const colors = {
+            'att-cliente': '#c5a185',
             'camera-opt': '#17a2b8',
             'radio-opt': '#fd7e14',
             'nobreak-opt': '#20c997',
@@ -112,6 +116,7 @@ function AdminDashboard() {
 
     const getTypeIcon = (type) => {
         const icons = {
+            'att-cliente': '📞',
             'camera-opt': '📷',
             'radio-opt': '📻',
             'nobreak-opt': '⚡',
@@ -142,6 +147,7 @@ function AdminDashboard() {
 
     const getTypeLabel = (type) => {
         const labels = {
+            'att-cliente': 'Atendimento ao Cliente',
             'camera-opt': 'Câmera',
             'radio-opt': 'Rádio',
             'nobreak-opt': 'Nobreak T.I',
@@ -221,6 +227,7 @@ function AdminDashboard() {
     // Lista de tipos para o filtro
     const typeOptions = [
         { value: 'all', label: 'Todos os tipos', icon: '📋' },
+        { value: 'att-cliente', label:"Atendimento ao Cliente", icon:'📞'},
         { value: 'camera-opt', label: 'Câmera', icon: '📷' },
         { value: 'radio-opt', label: 'Rádio', icon: '📻' },
         { value: 'nobreak-opt', label: 'Nobreak T.I', icon: '⚡' },
@@ -305,14 +312,26 @@ function AdminDashboard() {
                             onChange={(e) => setSelectedUser(e.target.value)}
                             className="filter-select"
                         >
-                            <option value="all">Todos os usuários</option>
-                            {users.map(user => (
+                            <option value="all">Todos os usuários</option> 
+                            {users.map(user => {
+                                if (user && user.role !== 'ADMIN') {
+                                    return (
+                                        <option key={user.id} value ={user.id}>
+                                            {user.user}
+                                        </option>
+                                    );
+                                }
+                                return null;
+                            })}
+                            
+                            {/* {users.map((user) => (
                                 <option key={user.id} value={user.id}>
                                     {user.user} 
                                 </option>
-                            ))}
+                            ))} */}
                         </select>
                     </div>
+                    
 
                     <div className="filter-group">
                         <label> Tipo de Demanda:</label>
@@ -341,7 +360,7 @@ function AdminDashboard() {
                     </div>
 
                     {/* <div className="filter-group">
-                        <label>📅 Data Início:</label>
+                        <label> Data Início:</label>
                         <input
                             type="date"
                             value={dateRange.start}
@@ -351,7 +370,7 @@ function AdminDashboard() {
                     </div>
 
                     <div className="filter-group">
-                        <label>📅 Data Fim:</label>
+                        <label> Data Fim:</label>
                         <input
                             type="date"
                             value={dateRange.end}

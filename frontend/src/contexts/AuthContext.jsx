@@ -36,25 +36,19 @@ export const AuthProvider = ({ children }) => {
 
     
 
-    // FUNÇÃO DE LOGIN ADAPTADA PARA USUÁRIO (NÃO EMAIL)
+    // FUNÇÃO DE LOGIN ADAPTADA PARA USUÁRIO
     const login = async (user, password) => {
         try {
             // Envia usuário e senha para o backend
             const response = await api.post('/login', { 
-                user: user,  // ou 'username' dependendo do que seu backend espera
+                user: user,  
                 password 
             });
             
-            // A estrutura abaixo DEPENDE de como seu backend retorna os dados
-            // Geralmente o backend retorna algo como:
-            // { user: { id, name, username }, token: "jwt_token" }
+            
             const { user: userData, token } = response.data;
             
-            // Se seu backend retornar com nomes diferentes, ajuste aqui
-            // Por exemplo, se retornar { usuario, token }:
-            // const { usuario: userData, token } = response.data;
             
-            // Salva no localStorage
             localStorage.setItem('user', JSON.stringify(userData));
             localStorage.setItem('token', token);
             

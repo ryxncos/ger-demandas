@@ -7,7 +7,7 @@ const fs = require('fs');
 const uploadDir = path.join(__dirname, '..', '/uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
-    console.log('📁 Pasta uploads criada em:', uploadDir);
+    // console.log(' Pasta uploads criada em:', uploadDir);
 }
 
 const storage = multer.diskStorage({

@@ -14,7 +14,7 @@ app.use(cors({
 }));
 
 const uploadsPath = path.join(__dirname, 'uploads');
-// console.log('📁 Pasta de uploads:', uploadsPath); // Debug
+// console.log(' Pasta de uploads:', uploadsPath); // Debug
 
 // Servir arquivos estáticos da pasta uploads
 app.use('/uploads', express.static(uploadsPath));

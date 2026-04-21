@@ -19,10 +19,10 @@ async function createRecords(req, res) {
         let imageUrl = null;
         if (req.file) {
             imageUrl = req.file.filename;
-            console.log('📸 Arquivo salvo:', req.file.filename);
-            console.log('📁 Caminho completo:', req.file.path);
+            // console.log(' Arquivo salvo:', req.file.filename);
+            // console.log(' Caminho completo:', req.file.path);
         } else {
-            console.log('📸 Nenhum arquivo enviado');
+            // console.log('📸 Nenhum arquivo enviado');
         }
 
         if (!req.user || !req.user.id) {
@@ -31,7 +31,7 @@ async function createRecords(req, res) {
 
         const userId = req.user.id;
         
-        console.log("Criando demanda para usuário ID:", userId);
+        // console.log("Criando demanda para usuário ID:", userId);
 
         const records = await prisma.record.create({
             data: {
@@ -52,7 +52,8 @@ async function createRecords(req, res) {
         
     } catch (error) {
         console.error("Erro detalhado:", error);
-        return res.status(500).json({ error: error.message });
+        error = "É obrigatório a indexação de uma imagem"
+        return res.status(500).json({error});
     }
 }
 
@@ -311,7 +312,7 @@ async function deleteRecord(req, res) {
             try {
                 if (fs.existsSync(imagePath)) {
                     fs.unlinkSync(imagePath);
-                    console.log('Imagem deletada:', imagePath);
+                    // console.log('Imagem deletada:', imagePath);
                 }
             } catch (fileError) {
                 console.error('Erro ao deletar arquivo de imagem:', fileError);

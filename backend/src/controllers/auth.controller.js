@@ -27,23 +27,23 @@ async function login(req, res) {
             return res.status(401).json({ error: "Usuário ou senha inválidos" });
         }
 
-        // 🔥 IMPORTANTE: Incluir o role no token JWT
+        // Inclui o role no token JWT
         const token = jwt.sign(
             { 
                 id: usuario.id, 
                 user: usuario.user, 
-                role: usuario.role  // 👈 ADICIONE O ROLE AQUI!
+                role: usuario.role  
             }, 
             process.env.JWT_SECRET || 'seu_secret_jwt_aqui',
             { expiresIn: '24h' }
         );
 
-        // 🔥 IMPORTANTE: Retornar o role para o frontend
+        // Retorna o role para o frontend
         return res.json({
             user: {
                 id: usuario.id,
                 user: usuario.user,
-                role: usuario.role  // 👈 ADICIONE O ROLE NA RESPOSTA!
+                role: usuario.role  
             },
             token
         });

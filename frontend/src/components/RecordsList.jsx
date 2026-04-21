@@ -34,6 +34,7 @@ function RecordsList() {
     // 🔥 ATUALIZADO: Mapeamento de cores para as novas categorias
     const getTypeColor = (type) => {
         const colors = {
+            'att-cliente': '#c5a185',
             'camera-opt': '#17a2b8',      // Azul petróleo
             'radio-opt': '#fd7e14',       // Laranja
             'nobreak-opt': '#20c997',     // Verde água
@@ -65,6 +66,7 @@ function RecordsList() {
     // 🔥 ATUALIZADO: Ícones para as novas categorias
     const getTypeIcon = (type) => {
         const icons = {
+            'att-cliente': '📞',
             'camera-opt': '📷',
             'radio-opt': '📻',
             'nobreak-opt': '⚡',
@@ -96,6 +98,7 @@ function RecordsList() {
     // 🔥 ATUALIZADO: Labels para as novas categorias
     const getTypeLabel = (type) => {
         const labels = {
+            'att-cliente':'Atendimento ao cliente',
             'camera-opt': 'Câmera',
             'radio-opt': 'Rádio',
             'nobreak-opt': 'Nobreak T.I',
@@ -160,6 +163,7 @@ function RecordsList() {
     // 🔥 ATUALIZADO: Lista de categorias para os botões de filtro
     const categories = [
         { value: 'all', label: 'Todos', icon: '📋' },
+        { value: 'att-cliente', label:"Atendimento ao Cliente", icon:'📞'},
         { value: 'camera-opt', label: 'Câmera', icon: '📷' },
         { value: 'radio-opt', label: 'Rádio', icon: '📻' },
         { value: 'nobreak-opt', label: 'Nobreak', icon: '⚡' },
@@ -177,6 +181,7 @@ function RecordsList() {
         { value: 'erp-1t-opt', label: 'ERP 1T', icon: '📈' },
         { value: 'erp-2t-opt', label: 'ERP 2T', icon:'📈'},
         { value: 'erp-area-apoio-opt', label: 'ERP Área de Apoio', icon:'📈'}
+
     ];
 
     if (loading) {

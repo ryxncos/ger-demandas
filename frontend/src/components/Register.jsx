@@ -199,7 +199,7 @@ function Register() {
                         />
                     </div>
 
-                    {/* Dica de role (apenas informativo) */}
+                    {/* */}
                     {/* <div className="role-info">
                         <small>📌 Todos os usuários são cadastrados como "USER"</small>
                     </div> */}

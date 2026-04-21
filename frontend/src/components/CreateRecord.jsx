@@ -11,7 +11,7 @@ function CreateRecord() {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        type: 'camera-opt'
+        type: 'att-cliente'
     });
 
     const [image, setImage] = useState(null);
@@ -55,7 +55,7 @@ function CreateRecord() {
             setSuccess(true);
 
             // 🔥 RESET
-            setFormData({ title: '', description: '', type: 'Câmera' });
+            setFormData({ title: '', description: '', type: 'Atendimento ao cliente' });
             setImage(null);
 
             // 🔥 REDIRECT APÓS 1.5s (tempo pra mostrar feedback)
@@ -118,6 +118,7 @@ function CreateRecord() {
                             onChange={handleChange}
                             disabled={loading}
                         >
+                            <option value="att-cliente">Atendimento ao cliente</option>
                             <option value="camera-opt">Câmera</option>
                             <option value="radio-opt">Rádio</option>
                             <option value="nobreak-opt">Nobreak T.I</option>
