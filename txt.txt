@@ -1,8 +1,0 @@
-Falta fazer:
-Método de edição/post
-Método de exclusão de demandas
-
-Usuário e senha do administrador
-Tela do administrador
-
-Configuração do ambiente da aplicação (servidor)
